@@ -37,6 +37,17 @@ class LexerTest {
         testLexer(Lexer(StringReader(s), lenient = true))
     }
 
+    fun microsoft() {
+        val s = """{
+            a : 1,
+            // this is a comment
+            ab: 1,
+            ab: 12
+            }
+            """
+        testLexer(Lexer(StringReader(s), lenient = true))
+    }
+
     private fun testLexer(lexer: Lexer) {
         val result = Sequence{ -> lexer }.map { it }.toList()
         Assert.assertEquals(result, expected)

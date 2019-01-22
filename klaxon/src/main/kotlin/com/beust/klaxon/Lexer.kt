@@ -128,6 +128,19 @@ class Lexer(passedReader: Reader, val lenient: Boolean = false): Iterator<Token>
                         }
                     }
                     '"' -> break@loop
+                    '/' -> {
+                        if (peekChar() == '/') {
+                            currentValue.setLength(0)
+                            do {
+                                c = nextChar()
+                            } while (c != '\n' && !isDone)
+                            while (!isDone && isSpace(c)) {
+                                c = nextChar()
+                            }
+                            currentValue.append(c)
+                            continue@loop
+                        }
+                    }
                     else ->
                         if (lenient) {
                             if (! c.isJavaIdentifierPart()) {
